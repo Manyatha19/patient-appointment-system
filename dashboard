@@ -1,0 +1,155 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Patient Appointment Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f6f9;
+    }header {
+  background: #2c3e50;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+.form-section, .table-section {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  flex: 1;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+  margin-top: 0;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px;
+  background: #27ae60;
+  color: white;
+  border: none;
+  width: 100%;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #219150;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background: #34495e;
+  color: white;
+}
+
+.btn-delete {
+  background: red;
+  padding: 5px 10px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+  </style>
+</head>
+<body><header>
+  <h1>Patient Appointment Scheduling System</h1>
+</header><div class="container">  <!-- FORM SECTION -->  <div class="form-section">
+    <h2>Add Patient</h2><input type="number" id="id" placeholder="Patient ID" />
+<input type="text" id="name" placeholder="Patient Name" />
+<input type="number" id="age" placeholder="Age" />
+<input type="text" id="disease" placeholder="Disease" />
+
+<button onclick="addPatient()">Add Appointment</button>
+
+  </div>  <!-- TABLE SECTION -->  <div class="table-section">
+    <h2>Appointments</h2><table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Disease</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="patientTable">
+  </tbody>
+</table>
+
+  </div></div><script>
+  let patients = [];
+
+  function addPatient() {
+    let id = document.getElementById("id").value;
+    let name = document.getElementById("name").value;
+    let age = document.getElementById("age").value;
+    let disease = document.getElementById("disease").value;
+
+    if (!id || !name || !age || !disease) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    patients.push({ id, name, age, disease });
+    displayPatients();
+
+    document.getElementById("id").value = "";
+    document.getElementById("name").value = "";
+    document.getElementById("age").value = "";
+    document.getElementById("disease").value = "";
+  }
+
+  function displayPatients() {
+    let table = document.getElementById("patientTable");
+    table.innerHTML = "";
+
+    patients.forEach((p, index) => {
+      table.innerHTML += `
+        <tr>
+          <td>${p.id}</td>
+          <td>${p.name}</td>
+          <td>${p.age}</td>
+          <td>${p.disease}</td>
+          <td><button class='btn-delete' onclick='deletePatient(${index})'>Delete</button></td>
+        </tr>
+      `;
+    });
+  }
+
+  function deletePatient(index) {
+    patients.splice(index, 1);
+    displayPatients();
+  }
+</script></body>
+</html>
